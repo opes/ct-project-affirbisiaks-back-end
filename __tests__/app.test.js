@@ -7,7 +7,7 @@ describe('back-end routes', () => {
     return database.sync({ force: true });
   });
 
-  it('creates a user account', async (req, res, next) => {
+  it('creates a user account', async () => {
     const user = {
       username: 'name',
       affirmations: [],
