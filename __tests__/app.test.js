@@ -26,6 +26,6 @@ describe('back-end routes', () => {
       phoneNumber: ''
     });
     const res = await request(app).get(`/api/v1/users/${user.id}`);
-    expect(res.body).toEqual({ ...user });
+    expect(res.body).toEqual({ id: 1, ...user.toJSON() });
   });
 });
