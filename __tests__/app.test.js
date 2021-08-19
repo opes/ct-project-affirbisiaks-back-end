@@ -10,7 +10,7 @@ describe('back-end routes', () => {
 
   it('creates a user account', async () => {
     const user = {
-      username: 'name',
+      name: 'name',
       affirmations: [],
       preference: '',
       phoneNumber: ''
@@ -20,7 +20,7 @@ describe('back-end routes', () => {
   });
   it('gets a user by id', async () => {
     const user = await User.create({
-      username: 'name',
+      name: 'name',
       affirmations: [],
       preference: '',
       phoneNumber: ''
@@ -30,13 +30,13 @@ describe('back-end routes', () => {
   });
   it('updates a user by id', async () => {
     const user = await User.create({
-      username: 'name',
+      name: 'name',
       affirmations: [],
       preference: '',
       phoneNumber: ''
     });
     const newUser = {
-      username: 'newName',
+      name: 'newName',
       affirmations: ['You\'re going to do great work today'],
       preference: 'wholesome',
       phoneNumber: '+19999999999'
@@ -46,7 +46,7 @@ describe('back-end routes', () => {
   });
   it('deletes a user by id', async () => {
     const user = await User.create({
-      username: 'name',
+      name: 'name',
       affirmations: [],
       preference: '',
       phoneNumber: ''
