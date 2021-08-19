@@ -41,5 +41,19 @@ describe('affirmation testing', () => {
     expect(res.body).toEqual([ {text: 'You are great'}, {text: 'You are awesome!'} ])
   })
 
+  it('deletes an affirmation', async () => {
+      const affirmation = {
+          text: 'You are great',
+          category: 'wholesome',
+      }
+      await Affirmation.create(affirmation);
+
+      const res = await request(app).delete('/api/v1/affirmation/1');
+
+      expect(res.body).toEqual( {
+          success: true
+      })
+  })
+
 
 }); //<--- End parent code block
