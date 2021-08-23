@@ -14,7 +14,7 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: 1234
+      googleId: '1234'
     };
     const res = await request(app).post('/api/v1/users').send(user);
     expect(res.body).toEqual({ id: 1, ...user });
@@ -25,7 +25,7 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: 1234
+      googleId: '1234'
     });
     const res = await request(app).get(`/api/v1/users/${user.googleId}`);
     expect(res.body).toEqual({ id: 1, ...user.toJSON() });
@@ -36,7 +36,7 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: 1234
+      googleId: '1234'
     });
     const newUser = {
       name: 'newName',
@@ -45,7 +45,7 @@ describe('back-end routes', () => {
       phoneNumber: '+19999999999'
     };
     const res = await request(app).patch(`/api/v1/users/${user.googleId}`).send(newUser);
-    expect(res.body).toEqual({ id: 1, ...newUser, googleId: 1234 });
+    expect(res.body).toEqual({ id: 1, ...newUser, googleId: '1234' });
   });
   it('deletes a user by id', async () => {
     const user = await User.create({
@@ -53,7 +53,7 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: 1234
+      googleId: '1234'
     });
     const res = await request(app).delete(`/api/v1/users/${user.id}`);
     expect(res.body).toEqual({ success: true });
