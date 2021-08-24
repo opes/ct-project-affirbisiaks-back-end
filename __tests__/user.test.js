@@ -13,11 +13,11 @@ describe('back-end routes', () => {
       name: 'name',
       affirmations: [],
       preference: '',
-      phoneNumber: '',
+      phoneNumber: '123654789',
       googleId: '1234'
     };
     const res = await request(app).post('/api/v1/users').send(user);
-    expect(res.body).toEqual({ id: 1, ...user });
+    expect(res.body).toEqual({ id: res.body.id, ...user });
   });
   it('gets a user by googleId', async () => {
     const user = await User.create({
