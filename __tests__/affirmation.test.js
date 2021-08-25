@@ -3,7 +3,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Affirmation = require('../lib/models/Affirmation.js');
 
-describe('affirmation testing', () => {
+describe.skip('affirmation testing', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
