@@ -3,12 +3,12 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Affirmation = require('../lib/models/Affirmation.js');
 
-describe.skip('affirmation testing', () => {
+describe('affirmation testing', () => {
   beforeEach(() => {
     return database.sync({ force: true });
   });
 
-  it('posts an affirmation', async () => {
+  it.skip('posts an affirmation', async () => {
     const affirmation = {
       text: 'You are great',
       category: 'wholesome',
@@ -19,7 +19,7 @@ describe.skip('affirmation testing', () => {
     expect(res.body).toEqual({ id: 1, ...affirmation });
   });
 
-  it('gets all affirmations by category', async () => {
+  it.skip('gets all affirmations by category', async () => {
     const affirmation1 = {
       text: 'You are great',
       category: 'wholesome',
@@ -41,7 +41,7 @@ describe.skip('affirmation testing', () => {
     expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }]);
   });
 
-  it('deletes an affirmation', async () => {
+  it.skip('deletes an affirmation', async () => {
     const affirmation = {
       text: 'You are great',
       category: 'wholesome',
