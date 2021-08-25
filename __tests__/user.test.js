@@ -2,6 +2,7 @@ const database = require('../lib/utils/database');
 const request = require('supertest');
 const app = require('../lib/app');
 const User = require('../lib/models/User');
+const Affirmation = require('../lib/models/Affirmation');
 
 describe('back-end routes', () => {
   beforeEach(() => {
@@ -12,12 +13,27 @@ describe('back-end routes', () => {
     const user = {
       name: 'name',
       affirmations: [],
-      preference: '',
+      preference: 'wholesome',
       phoneNumber: '123654789',
       googleId: '1234'
     };
+
+    const affirmation1 = {
+      text: 'You are great',
+      category: 'wholesome',
+    };
+    const affirmation2 = {
+      text: 'You are awesome!',
+      category: 'wholesome',
+    };
+    const affirmation3 = {
+      text: 'You are great at stuffs and things!',
+      category: 'motivational',
+    };
+    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
+
     const res = await request(app).post('/api/v1/users').send(user);
-    expect(res.body).toEqual({ id: res.body.id, ...user });
+    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [affirmation1.text, affirmation2.text] });
   });
   it('gets a user by googleId', async () => {
     const user = await User.create({
