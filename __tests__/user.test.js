@@ -3,6 +3,14 @@ const request = require('supertest');
 const app = require('../lib/app');
 const User = require('../lib/models/User');
 const Affirmation = require('../lib/models/Affirmation');
+const UserService = require('../lib/services/UserService');
+
+// jest.mock('twilio', () => () => ({
+//   messages: {
+//     create: jest.fn(),
+//   },
+// }));
+
 
 describe('back-end routes', () => {
   beforeEach(() => {
@@ -14,7 +22,7 @@ describe('back-end routes', () => {
       name: 'name',
       affirmations: [],
       preference: 'wholesome',
-      phoneNumber: '123654789',
+      phoneNumber: '+12365478901',
       googleId: '1234'
     };
 
@@ -41,7 +49,7 @@ describe('back-end routes', () => {
       name: 'name',
       affirmations: [],
       preference: '',
-      phoneNumber: '123654789',
+      phoneNumber: '+12365478901',
       googleId: '1234'
     };
 
@@ -74,6 +82,36 @@ describe('back-end routes', () => {
     const res = await request(app).get(`/api/v1/users/${user.googleId}`);
     expect(res.body).toEqual({ id: 1, ...user.toJSON() });
   });
+
+  it('sends a user their affirmations', async () => {
+    const affirmation1 = {
+      text: 'You are great',
+      category: 'wholesome',
+    };
+    const affirmation2 = {
+      text: 'You are awesome!',
+      category: 'wholesome',
+    };
+    const affirmation3 = {
+      text: 'You are great at stuffs and things!',
+      category: 'motivational',
+    };
+    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
+
+    const user = await UserService.createAffirmations({
+      name: 'name',
+      affirmations: [],
+      preference: '',
+      phoneNumber: '+17755278873',
+      googleId: '1234'
+    });
+    
+    const formattedUser = await request(app).get(`/api/v1/users/${user.googleId}`);
+
+    const res = await request(app).get('/api/v1/users/send').send(formattedUser.body);
+    expect(res.body).toEqual({ message: 'All done!' });
+  });
+
   it('updates a user by id', async () => {
     const user = await User.create({
       name: 'name',
