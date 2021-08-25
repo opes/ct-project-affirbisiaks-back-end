@@ -5,11 +5,11 @@ const User = require('../lib/models/User');
 const Affirmation = require('../lib/models/Affirmation');
 const UserService = require('../lib/services/UserService');
 
-// jest.mock('twilio', () => () => ({
-//   messages: {
-//     create: jest.fn(),
-//   },
-// }));
+jest.mock('twilio', () => () => ({
+  messages: {
+    create: jest.fn(),
+  },
+}));
 
 
 describe('back-end routes', () => {
