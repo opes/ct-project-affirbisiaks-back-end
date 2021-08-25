@@ -9,7 +9,7 @@ describe('back-end routes', () => {
     return database.sync({ force: true });
   });
 
-  it('creates a user account', async () => {
+  it('creates a user account with a preference', async () => {
     const user = {
       name: 'name',
       affirmations: [],
@@ -35,6 +35,34 @@ describe('back-end routes', () => {
     const res = await request(app).post('/api/v1/users').send(user);
     expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [affirmation1.text, affirmation2.text] });
   });
+
+  it('creates a user account without a preference', async () => {
+    const user = {
+      name: 'name',
+      affirmations: [],
+      preference: '',
+      phoneNumber: '123654789',
+      googleId: '1234'
+    };
+
+    const affirmation1 = {
+      text: 'You are great',
+      category: 'wholesome',
+    };
+    const affirmation2 = {
+      text: 'You are awesome!',
+      category: 'wholesome',
+    };
+    const affirmation3 = {
+      text: 'You are great at stuffs and things!',
+      category: 'motivational',
+    };
+    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
+
+    const res = await request(app).post('/api/v1/users').send(user);
+    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [affirmation1.text, affirmation2.text, affirmation3.text] });
+  });
+
   it('gets a user by googleId', async () => {
     const user = await User.create({
       name: 'name',
