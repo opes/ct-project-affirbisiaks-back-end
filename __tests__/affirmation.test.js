@@ -8,7 +8,7 @@ describe('affirmation testing', () => {
     return database.sync({ force: true });
   });
 
-  it.skip('posts an affirmation', async () => {
+  it('posts an affirmation', async () => {
     const affirmation = {
       text: 'You are great',
       category: 'wholesome',
@@ -19,7 +19,7 @@ describe('affirmation testing', () => {
     expect(res.body).toEqual({ id: 1, ...affirmation });
   });
 
-  it.skip('gets all affirmations by category', async () => {
+  it('gets all affirmations by category', async () => {
     const affirmation1 = {
       text: 'You are great',
       category: 'wholesome',
@@ -41,7 +41,7 @@ describe('affirmation testing', () => {
     expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }]);
   });
 
-  it.skip('deletes an affirmation', async () => {
+  it('deletes an affirmation', async () => {
     const affirmation = {
       text: 'You are great',
       category: 'wholesome',
