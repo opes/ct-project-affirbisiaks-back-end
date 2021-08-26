@@ -1,3 +1,7 @@
-# ct-project-affirbisiaks-back-end
+### About affirbisiaks
 
-Used npm i, npm install card-deck, npm i sequelize, npm i twilio
+Dj Drakos, . Kubisiak, Sean Simpson, Isaac Ewing, and Missael Ortiz
+
+Affirbisiaks will allow users to create an account via Gmail oauth. Users will be able to select receiving 10 affirming messages either every other day or once per a week.
+
+!
