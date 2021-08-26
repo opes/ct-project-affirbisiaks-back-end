@@ -38,10 +38,25 @@ describe('back-end routes', () => {
       text: 'You are great at stuffs and things!',
       category: 'motivational',
     };
-    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
+    const affirmation4 = {
+      text: '4',
+      category: 'wholesome',
+    };
+    const affirmation5 = {
+      text: '5!',
+      category: 'wholesome',
+    };
+    const affirmation6 = {
+      text: '6!',
+      category: 'motivational',
+    };
+    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3, affirmation4, affirmation5, affirmation6]);
 
     const res = await request(app).post('/api/v1/users').send(user);
-    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [affirmation1.text, affirmation2.text] });
+
+    const someStr = expect.any(String);
+
+    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [someStr, someStr, someStr, someStr] });
   });
 
   it('creates a user account without a preference', async () => {
@@ -68,7 +83,10 @@ describe('back-end routes', () => {
     await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
 
     const res = await request(app).post('/api/v1/users').send(user);
-    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [affirmation1.text, affirmation2.text, affirmation3.text] });
+
+    const someStr = expect.any(String);
+
+    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [someStr, someStr, someStr] });
   });
 
   it('gets a user by googleId', async () => {
@@ -102,7 +120,7 @@ describe('back-end routes', () => {
       name: 'name',
       affirmations: [],
       preference: '',
-      phoneNumber: '+17755278873',
+      phoneNumber: '+11234567890',
       googleId: '1234'
     });
     
