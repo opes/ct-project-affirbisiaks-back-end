@@ -48,7 +48,7 @@ describe('affirmation testing', () => {
     expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }]);
   });
 
-  it('gets all affirmations by category', async () => {
+  it('gets all affirmations', async () => {
     const affirmation1 = {
       text: 'You are great',
       category: 'wholesome',
