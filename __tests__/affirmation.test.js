@@ -48,6 +48,28 @@ describe('affirmation testing', () => {
     expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }]);
   });
 
+  it('gets all affirmations by category', async () => {
+    const affirmation1 = {
+      text: 'You are great',
+      category: 'wholesome',
+    };
+
+    const affirmation2 = {
+      text: 'You are awesome!',
+      category: 'wholesome',
+    };
+
+    const affirmation3 = {
+      text: 'You are great at stuffs and things!',
+      category: 'motivational',
+    };
+    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
+
+    const res = await request(app).get('/api/v1/affirmations/all');
+
+    expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }, { text: 'You are great at stuffs and things!' }]);
+  });
+
   it('deletes an affirmation', async () => {
     const affirmation = {
       text: 'You are great',
