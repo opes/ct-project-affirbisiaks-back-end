@@ -70,6 +70,22 @@ describe('affirmation testing', () => {
     expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }, { text: 'You are great at stuffs and things!' }]);
   });
 
+  it('updates an affirmation', async () => {
+    await Affirmation.create({
+      text: 'You are great',
+      category: 'wholesome',
+    });
+
+    const update = {
+      text: 'You\'re great',
+      category: 'wholesome'
+    };
+    
+    const res =  await request(app).patch('/api/v1/affirmations/1').send(update);
+    
+    expect(res.body).toEqual({ id: 1, ...update });
+  });
+
   it('deletes an affirmation', async () => {
     const affirmation = {
       text: 'You are great',
