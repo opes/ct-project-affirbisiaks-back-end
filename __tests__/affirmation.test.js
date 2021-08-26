@@ -3,6 +3,13 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Affirmation = require('../lib/models/Affirmation.js');
 
+jest.mock('twilio', () => () => ({
+  messages: {
+    create: jest.fn(),
+  },
+}));
+
+
 describe('affirmation testing', () => {
   beforeEach(() => {
     return database.sync({ force: true });
@@ -14,7 +21,7 @@ describe('affirmation testing', () => {
       category: 'wholesome',
     };
     
-    const res =  await request(app).post('/api/v1/affirmation').send(affirmation);
+    const res =  await request(app).post('/api/v1/affirmations').send(affirmation);
     
     expect(res.body).toEqual({ id: 1, ...affirmation });
   });
@@ -36,7 +43,7 @@ describe('affirmation testing', () => {
     };
     await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3]);
 
-    const res = await request(app).get('/api/v1/affirmation/wholesome');
+    const res = await request(app).get('/api/v1/affirmations/wholesome');
 
     expect(res.body).toEqual([{ text: 'You are great' }, { text: 'You are awesome!' }]);
   });
@@ -48,7 +55,7 @@ describe('affirmation testing', () => {
     };
     await Affirmation.create(affirmation);
 
-    const res = await request(app).delete('/api/v1/affirmation/1');
+    const res = await request(app).delete('/api/v1/affirmations/1');
 
     expect(res.body).toEqual({
       success: true
