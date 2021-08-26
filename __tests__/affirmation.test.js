@@ -3,6 +3,13 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Affirmation = require('../lib/models/Affirmation.js');
 
+jest.mock('twilio', () => () => ({
+  messages: {
+    create: jest.fn(),
+  },
+}));
+
+
 describe('affirmation testing', () => {
   beforeEach(() => {
     return database.sync({ force: true });
