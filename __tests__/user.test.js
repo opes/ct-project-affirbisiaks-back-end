@@ -126,7 +126,7 @@ describe('back-end routes', () => {
     
     const formattedUser = await request(app).get(`/api/v1/users/${user.googleId}`);
 
-    const res = await request(app).get('/api/v1/users/send').send(formattedUser.body);
+    const res = await request(app).get(`/api/v1/users/send/${formattedUser.body.googleId}`);
     expect(res.body).toEqual({ message: 'All done!' });
   });
 
