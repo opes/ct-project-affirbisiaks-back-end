@@ -101,7 +101,7 @@ describe('back-end routes', () => {
     expect(res.body).toEqual({ id: 1, ...user.toJSON() });
   });
 
-  it.skip('sends a user their affirmations', async () => {
+  it('sends a user their affirmations', async () => {
     const affirmation1 = {
       text: 'You are great',
       category: 'wholesome',
@@ -126,7 +126,7 @@ describe('back-end routes', () => {
     
     const formattedUser = await request(app).get(`/api/v1/users/${user.googleId}`);
 
-    const res = await request(app).get('/api/v1/users/send').send(formattedUser.body);
+    const res = await request(app).get(`/api/v1/users/send/${formattedUser.body.googleId}`);
     expect(res.body).toEqual({ message: 'All done!' });
   });
 
