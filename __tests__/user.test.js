@@ -140,9 +140,10 @@ describe('back-end routes', () => {
     });
     const newUser = {
       name: 'newName',
-      affirmations: ['You\'re going to do great work today'],
+      affirmations: [],
       preference: 'wholesome',
-      phoneNumber: '+19999999999'
+      phoneNumber: '+19999999999',
+      googleId: '1234'
     };
     const res = await request(app).patch(`/api/v1/users/${user.googleId}`).send(newUser);
     expect(res.body).toEqual({ id: 1, ...newUser, googleId: '1234' });
