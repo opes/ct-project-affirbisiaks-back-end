@@ -11,7 +11,6 @@ jest.mock('twilio', () => () => ({
   },
 }));
 
-
 describe('back-end routes', () => {
   beforeEach(() => {
     return database.sync({ force: true });
@@ -23,7 +22,7 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: 'wholesome',
       phoneNumber: '+12365478901',
-      googleId: '1234'
+      googleId: '1234',
     };
 
     const affirmation1 = {
@@ -50,13 +49,24 @@ describe('back-end routes', () => {
       text: '6!',
       category: 'motivational',
     };
-    await Affirmation.bulkCreate([affirmation1, affirmation2, affirmation3, affirmation4, affirmation5, affirmation6]);
+    await Affirmation.bulkCreate([
+      affirmation1,
+      affirmation2,
+      affirmation3,
+      affirmation4,
+      affirmation5,
+      affirmation6,
+    ]);
 
     const res = await request(app).post('/api/v1/users').send(user);
 
     const someStr = expect.any(String);
 
-    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [someStr, someStr, someStr, someStr] });
+    expect(res.body).toEqual({
+      id: res.body.id,
+      ...user,
+      affirmations: [someStr, someStr, someStr, someStr],
+    });
   });
 
   it('creates a user account without a preference', async () => {
@@ -65,7 +75,7 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '+12365478901',
-      googleId: '1234'
+      googleId: '1234',
     };
 
     const affirmation1 = {
@@ -86,7 +96,11 @@ describe('back-end routes', () => {
 
     const someStr = expect.any(String);
 
-    expect(res.body).toEqual({ id: res.body.id, ...user, affirmations: [someStr, someStr, someStr] });
+    expect(res.body).toEqual({
+      id: res.body.id,
+      ...user,
+      affirmations: [someStr, someStr, someStr],
+    });
   });
 
   it('gets a user by googleId', async () => {
@@ -95,13 +109,14 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: '1234'
+      googleId: '1234',
     });
     const res = await request(app).get(`/api/v1/users/${user.googleId}`);
+
     expect(res.body).toEqual({ id: 1, ...user.toJSON() });
   });
 
-  it.skip('sends a user their affirmations', async () => {
+  it('sends a user their affirmations', async () => {
     const affirmation1 = {
       text: 'You are great',
       category: 'wholesome',
@@ -121,12 +136,17 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '+11234567890',
-      googleId: '1234'
+      googleId: '1234',
     });
-    
-    const formattedUser = await request(app).get(`/api/v1/users/${user.googleId}`);
 
-    const res = await request(app).get(`/api/v1/users/send/${formattedUser.body.googleId}`);
+    const formattedUser = await request(app).get(
+      `/api/v1/users/${user.googleId}`
+    );
+
+    const res = await request(app).get(
+      `/api/v1/users/send/${formattedUser.body.googleId}`
+    );
+
     expect(res.body).toEqual({ message: 'All done!' });
   });
 
@@ -136,27 +156,32 @@ describe('back-end routes', () => {
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: '1234'
+      googleId: '1234',
     });
     const newUser = {
       name: 'newName',
       affirmations: [],
       preference: 'wholesome',
       phoneNumber: '+19999999999',
-      googleId: '1234'
+      googleId: '1234',
     };
-    const res = await request(app).patch(`/api/v1/users/${user.googleId}`).send(newUser);
+    const res = await request(app)
+      .patch(`/api/v1/users/${user.googleId}`)
+      .send(newUser);
+
     expect(res.body).toEqual({ id: 1, ...newUser, googleId: '1234' });
   });
+
   it('deletes a user by id', async () => {
     const user = await User.create({
       name: 'name',
       affirmations: [],
       preference: '',
       phoneNumber: '',
-      googleId: '1234'
+      googleId: '1234',
     });
     const res = await request(app).delete(`/api/v1/users/${user.id}`);
+
     expect(res.body).toEqual({ success: true });
   });
 });
